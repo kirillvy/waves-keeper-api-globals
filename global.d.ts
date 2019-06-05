@@ -440,6 +440,11 @@ interface IAuthReturn {
   version: string;
 }
 
+interface IPublicStateMessage {
+  id: string;
+  status: string;
+}
+
 interface IPublicState {
   /**
    * keeper initialized
@@ -460,7 +465,7 @@ interface IPublicState {
   /**
    * signature request statuses
    */
-  messages: string[],
+  messages: IPublicStateMessage[],
   /**
    * available transaction versions for each type
    */
@@ -476,6 +481,7 @@ interface IPublicStateAccount {
    * waves address
    */
   address: string;
+  network: string;
   /**
    * network byte
    */
@@ -489,6 +495,7 @@ interface IPublicStateAccount {
      * leased balance
      */
     leasedOut: string;
+    network: string;
   }
 }
 
