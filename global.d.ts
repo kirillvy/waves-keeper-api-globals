@@ -1,3 +1,4 @@
+// tslint:disable-next-line
 interface Window { WavesKeeper: IWavesKeeper; }
 declare var WavesKeeper: IWavesKeeper | undefined;
 
@@ -16,117 +17,115 @@ interface IWavesKeeper extends IWavesKeeperBase {
   /**
    * If a website is trusted, Waves Keeper public data are returned.
    */
-  publicState?: publicState;
+  publicState?: TPublicState;
   /**
    * If a website is not trusted, events won't show.
    */
-  auth?: auth;
+  auth?: TAuth;
   /**
    * A method for signing transactions in Waves' network.
    */
-  signTransaction?: signTransaction;
+  signTransaction?: TSignTransaction;
   /**
    * This is similar to "signTransaction", but it also broadcasts a transaction to the blockchain.
    */
-  signAndPublishTransaction?: signAndPublishTransaction;
+  signAndPublishTransaction?: TSignAndPublishTransaction;
   /**
    * A package transaction signature. Sometimes several transactions need to be simultaneously signed, 
    * and for users' convenience, up to seven transactions at ones could be signed
    */
-  signTransactionPackage?: signTransactionPackage;
+  signTransactionPackage?: TSignTransactionPackage;
   /**
    * Waves Keeper's method for signing an order to the matcher. 
    */
-  signOrder?: signOrder;
+  signOrder?: TSignOrder;
   /**
    * Waves Keeper's method for creating an order to the matcher is identical to signOrder,
    * but it also tries to send data to the matcher.
    */
-  signAndPublishOrder?: signAndPublishOrder;
+  signAndPublishOrder?: TSignAndPublishOrder;
   /**
    * Waves Keeper's method for cancelling an order to the matcher. It works identically to 
    * signCancelOrder, but also tries to send data to the matcher.
    */
-  signAndPublishCancelOrder?: signAndPublishCancelOrder;
+  signAndPublishCancelOrder?: TSignAndPublishCancelOrder;
   /**
    * Waves Keeper's method for signing cancellation of an order to the matcher. As input, 
    * it accepts an object similar to a transaction like this:
    */
-  signCancelOrder?: signCancelOrder;
+  signCancelOrder?: TSignCancelOrder;
   /**
    * Waves Keeper's method for signing typified data, for signing requests on various services. 
    * As input, it accepts an object similar to a transaction like this:
    */
-  signRequest?: signRequest;
+  signRequest?: TSignRequest;
 }
 
 interface IWavesKeeperReady extends IWavesKeeperBase {
   /**
    * If a website is trusted, Waves Keeper public data are returned.
    */
-  publicState: publicState;
+  publicState: TPublicState;
   /**
    * If a website is not trusted, events won't show.
    */
-  auth: auth;
+  auth: TAuth;
   /**
    * A method for signing transactions in Waves' network.
    */
-  signTransaction: signTransaction;
+  signTransaction: TSignTransaction;
   /**
    * This is similar to "signTransaction", but it also broadcasts a transaction to the blockchain.
    */
-  signAndPublishTransaction: signAndPublishTransaction;
+  signAndPublishTransaction: TSignAndPublishTransaction;
   /**
    * A package transaction signature. Sometimes several transactions need to be simultaneously signed, 
    * and for users' convenience, up to seven transactions at ones could be signed
    */
-  signTransactionPackage: signTransactionPackage;
+  signTransactionPackage: TSignTransactionPackage;
   /**
    * Waves Keeper's method for signing an order to the matcher. 
    */
-  signOrder: signOrder;
+  signOrder: TSignOrder;
   /**
    * Waves Keeper's method for creating an order to the matcher is identical to signOrder,
    * but it also tries to send data to the matcher.
    */
-  signAndPublishOrder: signAndPublishOrder;
+  signAndPublishOrder: TSignAndPublishOrder;
   /**
    * Waves Keeper's method for cancelling an order to the matcher. It works identically to 
    * signCancelOrder, but also tries to send data to the matcher.
    */
-  signAndPublishCancelOrder: signAndPublishCancelOrder;
+  signAndPublishCancelOrder: TSignAndPublishCancelOrder;
   /**
    * Waves Keeper's method for signing cancellation of an order to the matcher. As input, 
    * it accepts an object similar to a transaction like this:
    */
-  signCancelOrder: signCancelOrder;
+  signCancelOrder: TSignCancelOrder;
   /**
    * Waves Keeper's method for signing typified data, for signing requests on various services. 
    * As input, it accepts an object similar to a transaction like this:
    */
-  signRequest: signRequest;
+  signRequest: TSignRequest;
 }
 
 
-type publicState = () => Promise<IPublicState>;
-type auth = (data: IAuthInput) => Promise<IAuthReturn>;
+type TPublicState = () => Promise<IPublicState>;
+type TAuth = (data: IAuthInput) => Promise<IAuthReturn>;
 
-type signTransaction = (data: TransactionType) => Promise<ISignTransactionReturn | string>;
-type signAndPublishTransaction = (data: TransactionType) => Promise<ISignTransactionReturn | string>;
-type signTransactionPackage = (data: MassTransactionType[]) => Promise<ISignTransactionReturn[] | string[]>;
+type TSignTransaction = (data: TTransactionType) => Promise<ISignTransactionReturn | string>;
+type TSignAndPublishTransaction = (data: TTransactionType) => Promise<ISignTransactionReturn | string>;
+type TSignTransactionPackage = (data: TMassTransactionType[]) => Promise<ISignTransactionReturn[] | string[]>;
 
-type signOrder = (data: IDataInput<1002, ISignOrderInput>) => Promise<string>;
-type signAndPublishOrder = (data: IDataInput<1002, ISignOrderInput>) => Promise<string>;
+type TSignOrder = (data: IDataInput<1002, ISignOrderInput>) => Promise<string>;
+type TSignAndPublishOrder = (data: IDataInput<1002, ISignOrderInput>) => Promise<string>;
 
-type signAndPublishCancelOrder = (data: IDataInput<1003, ISignCancelOrderInput>) => Promise<string>;
-type signCancelOrder = (data: IDataInput<1003, ISignCancelOrderInput>) => Promise<string>;
+type TSignAndPublishCancelOrder = (data: IDataInput<1003, ISignCancelOrderInput>) => Promise<string>;
+type TSignCancelOrder = (data: IDataInput<1003, ISignCancelOrderInput>) => Promise<string>;
 
-type signRequest = (data: IDataInput<1001 | 1004, ISignRequestInput>) => Promise<string>;
+type TSignRequest = (data: IDataInput<1001 | 1004, ISignRequestInput>) => Promise<string>;
 
-type AmountType = number | string | MoneyLike;
-
-type MassTransactionType = IDataInput<3, ITransactionIssue> |
+type TMassTransactionType = IDataInput<3, ITransactionIssue> |
 IDataInput<4, ITransactionTransfer> |
 IDataInput<5, ITransactionReissue> |
 IDataInput<6, ITransactionBurn> |
@@ -134,7 +133,7 @@ IDataInput<10, ITransactionCreateAlias> |
 IDataInput<11, ITransactionMassTransfer> |
 IDataInput<12, ITransactionDataTx>;
 
-type TransactionType = IDataInput<3, ITransactionIssue> |
+type TTransactionType = IDataInput<3, ITransactionIssue> |
 IDataInput<4, ITransactionTransfer> |
 IDataInput<5, ITransactionReissue> |
 IDataInput<6, ITransactionBurn> |
@@ -148,9 +147,12 @@ IDataInput<14, ITransactionSponsorship> |
 IDataInput<15, ITransactionSetAssetScript> |
 IDataInput<16, ITransactionScriptInvocation>;
 
+type TMoneyLike = IMoneyLikeCoins | IMoneyLikeTokens;
+
+type TAmountType = number | string | TMoneyLike;
 
 interface ITransactionBase {
-  fee: MoneyLike;
+  fee: TMoneyLike;
   /**
    * sender's public key in base58
    */
@@ -183,7 +185,7 @@ interface ITransactionIssue extends ITransactionBase {
 }
 
 interface ITransactionTransfer extends ITransactionBase {
-  amount: MoneyLike;
+  amount: TMoneyLike;
   /**
    * recipient's address or alias
    */
@@ -196,7 +198,7 @@ interface ITransactionTransfer extends ITransactionBase {
 
 interface ITransactionReissue extends ITransactionBase {
   assetId: string;
-  quantity: AmountType;
+  quantity: TAmountType;
   /**
    * deny reissue
    */
@@ -206,7 +208,7 @@ interface ITransactionReissue extends ITransactionBase {
 interface ITransactionBurn extends ITransactionBase {
 
   assetId: string;
-  amount: AmountType;
+  amount: TAmountType;
 }
 
 interface ITransactionLease extends ITransactionBase {
@@ -214,7 +216,7 @@ interface ITransactionLease extends ITransactionBase {
    * recipient's address or alias
    */
   recipient: string;
-  amount: AmountType;
+  amount: TAmountType;
 }
 
 interface ITransactionLeaseCancel extends ITransactionBase {
@@ -236,7 +238,7 @@ interface ITransactionMassTransferObject {
    * address/alias
    */
   recipient: string;
-  amount: AmountType;
+  amount: TAmountType;
 }
 
 interface ITransactionMassTransfer extends ITransactionBase {
@@ -245,7 +247,7 @@ interface ITransactionMassTransfer extends ITransactionBase {
    * instead of calculating the amount you may insert
    * { assetId: "ID of the asset to be sent", coins: 0},
    */
-  totalAmount: MoneyLike;
+  totalAmount: TMoneyLike;
   /**
    * 
    */
@@ -256,24 +258,17 @@ interface ITransactionMassTransfer extends ITransactionBase {
   attachment: string;
 }
 
-interface ITransactionDataTxData {
-  /**
-   * data type
-   */
-  type: "binary" | 'string' | "integer" | "boolean";
-  /**
-   * field name
-   */
+type IDataTxEntry<T> = T & {
   key: string;
-  /**
-   * depends on the type
-   */
-  value: string | number | boolean;
-
 }
 
+type TTransactionDataTxData = IDataTxEntry<IDataTxInteger>  |
+IDataTxEntry<IDataTxInteger>  |
+IDataTxEntry<IDataTxBoolean>  |
+IDataTxEntry<IDataTxString> ;
+
 interface ITransactionDataTx extends ITransactionBase {
-  data: ITransactionDataTxData[];
+  data: TTransactionDataTxData[];
 }
 
 interface ITransactionSetScript extends ITransactionBase {
@@ -284,23 +279,36 @@ interface ITransactionSponsorship {
   /**
    * fee price in the asset.
    */
-  minSponsoredAssetFee: MoneyLike;
+  minSponsoredAssetFee: TMoneyLike;
 }
 interface ITransactionSetAssetScript extends ITransactionBase {
   assetId: string;
   script: string;
 }
 
-interface ITransactionScriptInvocationFnArgs {
-  /**
-   * data type
-   */
-  type: "binary" | 'string' | "integer" | "boolean";
-  /**
-   * depends on the type
-   */
-  value: string | number | boolean;
+type TTransactionScriptInvocationFnArgs = IDataTxInteger |
+IDataTxBoolean |
+IDataTxString |
+IDataTxBinary;
 
+interface IDataTxInteger {
+  type: 'integer';
+  value: number;
+}
+
+interface IDataTxBoolean {
+  type: 'boolean';
+  value: boolean;
+}
+
+interface IDataTxString {
+  type: 'string';
+  value: string;
+}
+
+interface IDataTxBinary {
+  type: 'binary';
+  value: Uint8Array;
 }
 
 interface ITransactionScriptInvocation extends ITransactionBase {
@@ -316,12 +324,12 @@ interface ITransactionScriptInvocation extends ITransactionBase {
     /**
      * 
      */
-    args: ITransactionScriptInvocationFnArgs[];
+    args: TTransactionScriptInvocationFnArgs[];
     /**
      * (at now can use only 1 payment)
      */
   }
-  payment?: MoneyLike[];
+  payment?: TMoneyLike[];
 }
 
 
@@ -348,13 +356,13 @@ interface ISignCancelOrderInput {
 }
 
 interface ISignOrderInput {
-  amount: MoneyLike;
-  price: MoneyLike;
+  amount: TMoneyLike;
+  price: TMoneyLike;
   orderType: 'sell' | 'buy';
   /**
    * fee (0.003 WAVES minimum)
    */
-  matcherFee: MoneyLike;
+  matcherFee: TMoneyLike;
   /**
    * the public key of the exchange service
    */
@@ -399,7 +407,6 @@ interface IMoneyLikeTokens extends IMoneyLikeBase {
   tokens: string;
 }
 
-type MoneyLike = IMoneyLikeCoins | IMoneyLikeTokens;
 
 interface IAuthInput {
   name: string;
