@@ -253,7 +253,7 @@ interface ITransactionMassTransfer extends ITransactionBase {
    */
   transfers: ITransactionMassTransferObject[];
   /**
-   * [,140 bytes в base58] string – additional info
+   * [,140 bytes in base58] string – additional info
    */
   attachment: string;
 }
@@ -409,11 +409,26 @@ interface IMoneyLikeTokens extends IMoneyLikeBase {
 
 
 interface IAuthInput {
-  name: string;
+  /**
+   * name of the service
+   */
+  name?: string;
+  /**
+   *  a line with any data
+   */
   data: string;
-  referrer: string;
-  icon: string;
-  successPath: string;
+  /**
+   *  a websites' full URL for redirect
+   */
+  referrer?: string;
+  /**
+   *  path to the logo relative to the referreror origin of the website
+   */
+  icon?: string;
+  /**
+   * relative path to the website's Auth API
+   */
+  successPath?: string;
 }
 
 interface IAuthReturn {
