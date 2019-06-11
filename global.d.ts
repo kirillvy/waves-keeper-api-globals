@@ -1,6 +1,6 @@
 // tslint:disable-next-line
-interface Window { WavesKeeper: IWavesKeeper; }
-declare var WavesKeeper: IWavesKeeper | undefined;
+interface Window { WavesKeeper: IWavesKeeperNotReady; }
+declare var WavesKeeper: IWavesKeeperNotReady | undefined;
 
 interface IWavesKeeperBase {
   /**
@@ -8,106 +8,65 @@ interface IWavesKeeperBase {
    */
   on: (event: 'update', cb: (state: IPublicState) => void) => void;
 }
-interface IWavesKeeper extends IWavesKeeperBase {
+
+interface IWavesKeeper<T extends undefined | never> extends IWavesKeeperBase {
+
+  /**
+   * If a website is trusted, Waves Keeper public data are returned.
+   */
+  publicState: TPublicState | T;
+  /**
+   * If a website is not trusted, events won't show.
+   */
+  auth?: TAuth | T;
+  /**
+   * A method for signing transactions in Waves' network.
+   */
+  signTransaction?: TSignTransaction | T;
+  /**
+   * This is similar to "signTransaction", but it also broadcasts a transaction to the blockchain.
+   */
+  signAndPublishTransaction?: TSignAndPublishTransaction | T;
+  /**
+   * A package transaction signature. Sometimes several transactions need to be simultaneously signed, 
+   * and for users' convenience, up to seven transactions at ones could be signed
+   */
+  signTransactionPackage?: TSignTransactionPackage | T;
+  /**
+   * Waves Keeper's method for signing an order to the matcher. 
+   */
+  signOrder?: TSignOrder | T;
+  /**
+   * Waves Keeper's method for creating an order to the matcher is identical to signOrder,
+   * but it also tries to send data to the matcher.
+   */
+  signAndPublishOrder?: TSignAndPublishOrder | T;
+  /**
+   * Waves Keeper's method for cancelling an order to the matcher. It works identically to 
+   * signCancelOrder, but also tries to send data to the matcher.
+   */
+  signAndPublishCancelOrder?: TSignAndPublishCancelOrder | T;
+  /**
+   * Waves Keeper's method for signing cancellation of an order to the matcher. As input, 
+   * it accepts an object similar to a transaction like this:
+   */
+  signCancelOrder?: TSignCancelOrder | T;
+  /**
+   * Waves Keeper's method for signing typified data, for signing requests on various services. 
+   * As input, it accepts an object similar to a transaction like this:
+   */
+  signRequest?: TSignRequest | T;
+}
+
+interface IWavesKeeperNotReady extends IWavesKeeper<undefined> {
   /**
    * On initialize window.WavesKeeper has not api methods.
    * You can use WavesKeeper.initialPromise for waiting end initializing api.
    */
   initialPromise: Promise<IWavesKeeperReady>;
-  /**
-   * If a website is trusted, Waves Keeper public data are returned.
-   */
-  publicState?: TPublicState;
-  /**
-   * If a website is not trusted, events won't show.
-   */
-  auth?: TAuth;
-  /**
-   * A method for signing transactions in Waves' network.
-   */
-  signTransaction?: TSignTransaction;
-  /**
-   * This is similar to "signTransaction", but it also broadcasts a transaction to the blockchain.
-   */
-  signAndPublishTransaction?: TSignAndPublishTransaction;
-  /**
-   * A package transaction signature. Sometimes several transactions need to be simultaneously signed, 
-   * and for users' convenience, up to seven transactions at ones could be signed
-   */
-  signTransactionPackage?: TSignTransactionPackage;
-  /**
-   * Waves Keeper's method for signing an order to the matcher. 
-   */
-  signOrder?: TSignOrder;
-  /**
-   * Waves Keeper's method for creating an order to the matcher is identical to signOrder,
-   * but it also tries to send data to the matcher.
-   */
-  signAndPublishOrder?: TSignAndPublishOrder;
-  /**
-   * Waves Keeper's method for cancelling an order to the matcher. It works identically to 
-   * signCancelOrder, but also tries to send data to the matcher.
-   */
-  signAndPublishCancelOrder?: TSignAndPublishCancelOrder;
-  /**
-   * Waves Keeper's method for signing cancellation of an order to the matcher. As input, 
-   * it accepts an object similar to a transaction like this:
-   */
-  signCancelOrder?: TSignCancelOrder;
-  /**
-   * Waves Keeper's method for signing typified data, for signing requests on various services. 
-   * As input, it accepts an object similar to a transaction like this:
-   */
-  signRequest?: TSignRequest;
 }
 
-interface IWavesKeeperReady extends IWavesKeeperBase {
-  /**
-   * If a website is trusted, Waves Keeper public data are returned.
-   */
-  publicState: TPublicState;
-  /**
-   * If a website is not trusted, events won't show.
-   */
-  auth: TAuth;
-  /**
-   * A method for signing transactions in Waves' network.
-   */
-  signTransaction: TSignTransaction;
-  /**
-   * This is similar to "signTransaction", but it also broadcasts a transaction to the blockchain.
-   */
-  signAndPublishTransaction: TSignAndPublishTransaction;
-  /**
-   * A package transaction signature. Sometimes several transactions need to be simultaneously signed, 
-   * and for users' convenience, up to seven transactions at ones could be signed
-   */
-  signTransactionPackage: TSignTransactionPackage;
-  /**
-   * Waves Keeper's method for signing an order to the matcher. 
-   */
-  signOrder: TSignOrder;
-  /**
-   * Waves Keeper's method for creating an order to the matcher is identical to signOrder,
-   * but it also tries to send data to the matcher.
-   */
-  signAndPublishOrder: TSignAndPublishOrder;
-  /**
-   * Waves Keeper's method for cancelling an order to the matcher. It works identically to 
-   * signCancelOrder, but also tries to send data to the matcher.
-   */
-  signAndPublishCancelOrder: TSignAndPublishCancelOrder;
-  /**
-   * Waves Keeper's method for signing cancellation of an order to the matcher. As input, 
-   * it accepts an object similar to a transaction like this:
-   */
-  signCancelOrder: TSignCancelOrder;
-  /**
-   * Waves Keeper's method for signing typified data, for signing requests on various services. 
-   * As input, it accepts an object similar to a transaction like this:
-   */
-  signRequest: TSignRequest;
-}
+interface IWavesKeeperReady extends IWavesKeeper<never> { }
 
 
 type TPublicState = () => Promise<IPublicState>;
