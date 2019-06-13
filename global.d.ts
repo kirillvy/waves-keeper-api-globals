@@ -18,44 +18,44 @@ interface IWavesKeeper<T extends undefined | never> extends IWavesKeeperBase {
   /**
    * If a website is not trusted, events won't show.
    */
-  auth?: TAuth | T;
+  auth: TAuth | T;
   /**
    * A method for signing transactions in Waves' network.
    */
-  signTransaction?: TSignTransaction | T;
+  signTransaction: TSignTransaction | T;
   /**
    * This is similar to "signTransaction", but it also broadcasts a transaction to the blockchain.
    */
-  signAndPublishTransaction?: TSignAndPublishTransaction | T;
+  signAndPublishTransaction: TSignAndPublishTransaction | T;
   /**
    * A package transaction signature. Sometimes several transactions need to be simultaneously signed, 
    * and for users' convenience, up to seven transactions at ones could be signed
    */
-  signTransactionPackage?: TSignTransactionPackage | T;
+  signTransactionPackage: TSignTransactionPackage | T;
   /**
    * Waves Keeper's method for signing an order to the matcher. 
    */
-  signOrder?: TSignOrder | T;
+  signOrder: TSignOrder | T;
   /**
    * Waves Keeper's method for creating an order to the matcher is identical to signOrder,
    * but it also tries to send data to the matcher.
    */
-  signAndPublishOrder?: TSignAndPublishOrder | T;
+  signAndPublishOrder: TSignAndPublishOrder | T;
   /**
    * Waves Keeper's method for cancelling an order to the matcher. It works identically to 
    * signCancelOrder, but also tries to send data to the matcher.
    */
-  signAndPublishCancelOrder?: TSignAndPublishCancelOrder | T;
+  signAndPublishCancelOrder: TSignAndPublishCancelOrder | T;
   /**
    * Waves Keeper's method for signing cancellation of an order to the matcher. As input, 
    * it accepts an object similar to a transaction like this:
    */
-  signCancelOrder?: TSignCancelOrder | T;
+  signCancelOrder: TSignCancelOrder | T;
   /**
    * Waves Keeper's method for signing typified data, for signing requests on various services. 
    * As input, it accepts an object similar to a transaction like this:
    */
-  signRequest?: TSignRequest | T;
+  signRequest: TSignRequest | T;
 }
 
 interface IWavesKeeperNotReady extends IWavesKeeper<undefined> {
